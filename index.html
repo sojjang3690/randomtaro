@@ -6,17 +6,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>랜덤 타로카드</title>
   <style>
+    .main-img {
+  width: 500px;
+  max-width: 100%;
+  height: auto;
+  margin: 1em auto;
+  display: block;
+  border-radius: 1em;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
     body { font-family: 'Arial', sans-serif; background: #f8f4ef; text-align: center; padding: 2em; }
+    .hidden { display: none; }
     .card-img { width: 300px; max-width: 90%; margin-bottom: 1em; }
     .card-name { font-size: 1.5em; margin: 0.5em 0; font-weight: bold; }
     .card-meaning { font-size: 1.1em; color: #333; }
-    .redraw { margin-top: 1.5em; padding: 0.5em 1em; font-size: 1em; }
+    .button { margin-top: 1.5em; padding: 0.5em 1em; font-size: 1em; cursor: pointer; }
   </style>
 </head>
 <body>
-  <h1>오늘의 타로카드</h1>
-  <div id="card-container"></div>
-  <button class="redraw" onclick="drawCard()">다시 뽑기</button>
+
+ <!-- 메인 화면 -->
+<div id="main-page">
+  <h1>환영합니다!</h1>
+  <p>오늘의 타로카드를 뽑아볼까요?</p>
+
+  <!-- 이미지 추가 -->
+  <img src="the_main.png" alt="타로 메인 이미지" class="main-img"/>
+
+  <br>
+  <button class="button" onclick="startTarot()">타로 뽑기 시작하기</button>
+</div>
+
+  <!-- 타로 카드 화면 -->
+  <div id="tarot-page" class="hidden">
+    <h1>오늘의 타로카드</h1>
+    <div id="card-container"></div>
+    <button class="button" onclick="drawCard()">다시 뽑기</button>
+    <button class="button" onclick="goHome()">절대 누르지마!</button> <!-- 새 버튼 -->
+
+     <!-- 숨겨진 GIF 영역 -->
+  <div id="gif-container" class="hidden">
+    <img src="donotpush.gif" alt="움직이는 타로 이미지" class="main-img"/>
+  </div>
+</div>
+
   <script>
     const cards = [
       {name: "The Magician", img: "the_magician.png", meaning: "당신은 모든 자원을 가지고 있어요. 이제는 시작할 시간이에요."},
@@ -29,8 +62,13 @@
       {name: "The Hermit", img: "the_hermit.png", meaning: "혼자만의 시간을 통해 지혜를 얻는 시기예요."},
       {name: "Justice", img: "justice.png", meaning: "균형과 공정함, 진실이 밝혀지는 순간입니다."},
       {name: "The World", img: "the_world.png", meaning: "완성, 성취, 순환의 흐름이 완벽하게 맞춰져요."},
-
     ];
+
+    function startTarot() {
+      document.getElementById('main-page').classList.add('hidden');
+      document.getElementById('tarot-page').classList.remove('hidden');
+      drawCard();  // 페이지 전환과 동시에 첫 카드 뽑기
+    }
 
     function drawCard() {
       const card = cards[Math.floor(Math.random() * cards.length)];
@@ -42,7 +80,16 @@
       document.getElementById("card-container").innerHTML = html;
     }
 
-    drawCard();
+    function goHome() {
+  document.getElementById('tarot-page').classList.add('hidden');
+  document.getElementById('main-page').classList.remove('hidden');
+}
+  </script>
+
+</body>
+</html>
+
+
   </script>
 </body>
 </html>
