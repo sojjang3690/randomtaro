@@ -42,10 +42,10 @@
     <h1>오늘의 타로카드</h1>
     <div id="card-container"></div>
     <button class="button" onclick="drawCard()">다시 뽑기</button>
-    <button class="button" onclick="goHome()">절대 누르지마!</button> <!-- 새 버튼 -->
+    <button class="button" onclick="showGif()">절대 누르지마!</button> <!-- 새 버튼 -->
 
      <!-- 숨겨진 GIF 영역 -->
-  <div id="gif-container" class="hidden">
+  <div id="gif-container" class="show">
     <img src="donotpush.gif" alt="움직이는 타로 이미지" class="main-img"/>
   </div>
 </div>
@@ -80,9 +80,8 @@
       document.getElementById("card-container").innerHTML = html;
     }
 
-    function goHome() {
-  document.getElementById('tarot-page').classList.add('hidden');
-  document.getElementById('main-page').classList.remove('hidden');
+    function showGif() {
+  document.getElementById('gif-container').classList.remove('hidden');
 }
   </script>
 
