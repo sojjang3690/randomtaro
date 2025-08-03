@@ -32,6 +32,18 @@
     .card-meaning { font-size: 1.1em; color: white; }
     .button { margin-top: 1.5em; padding: 0.5em 1em; font-size: 1em; cursor: pointer; }
 
+    @keyframes shuffle {
+  0% { transform: rotate(0deg) scale(1); }
+  25% { transform: rotate(10deg) scale(1.05); }
+  50% { transform: rotate(-10deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.card-shuffle {
+  animation: shuffle 0.8s ease-in-out;
+}
+
     .stars {
   position: absolute;
   width: 100%;
@@ -119,15 +131,25 @@
     }
 
     function drawCard() {
-      const card = cards[Math.floor(Math.random() * cards.length)];
-      const html = `
-        <img class="card-img" src="${card.img}" alt="${card.name}" />
-        <div class="card-name">${card.name}</div>
-        <div class="card-meaning">${card.meaning}</div>
-      `;
-      document.getElementById("card-container").innerHTML = html;
+  const container = document.getElementById("card-container");
+  container.innerHTML = `
+    <img class="card-img card-shuffle" src="cardback.png" alt="카드 뒷면" />
+  `;
 
-      createStars();
+  // 별뿌리기
+  createStars();
+
+  // 0.8초 후 실제 카드 보여주기
+  setTimeout(() => {
+    const card = cards[Math.floor(Math.random() * cards.length)];
+    const html = `
+      <img class="card-img" src="${card.img}" alt="${card.name}" />
+      <div class="card-name">${card.name}</div>
+      <div class="card-meaning">${card.meaning}</div>
+    `;
+    container.innerHTML = html;
+  }, 800); // 셔플 애니메이션 시간과 맞춰야 자연스러움
+}
     }
 
     function createStars() {
