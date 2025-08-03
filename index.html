@@ -98,12 +98,19 @@
   <!-- 타로 카드 화면 -->
   <div id="tarot-page" class="hidden">
     <h1>오늘의 타로카드</h1>
-    <!-- 카드와 GIF를 겹쳐서 표시할 컨테이너 -->
-  <div id="card-container" style="position: relative;">
-    <!-- GIF가 카드 위에 뜨게 설정 -->
-    <img id="gif-overlay" src="donotpush.gif" alt="위험한 GIF" class="main-img hidden"
-         style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10; width: 300px;"/>
+   <!-- 카드와 GIF를 겹쳐서 표시할 컨테이너 -->
+<div id="card-container" style="position: relative;">
+  <!-- 카드 내용 영역 -->
+  <div id="card-content">
+    <img class="card-img" src="cardback.png" alt="카드 뒷면" />
+    <div class="card-name"></div>
+    <div class="card-meaning"></div>
   </div>
+
+  <!-- 겹쳐서 뜨는 GIF -->
+  <img id="gif-overlay" src="donotpush.gif" alt="위험한 GIF" class="main-img hidden"
+       style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 10; width: 300px;" />
+</div>
 
   <button class="button" onclick="drawCard()">다시 뽑기</button>
   <button class="button" onclick="showGif()">절대 누르지마!</button>
@@ -111,11 +118,6 @@
   <div class="stars" id="star-effect"></div>
 </div>
 
-     <!-- 숨겨진 GIF 영역 -->
-  <div id="gif-container" class="hidden">
-    <img src="donotpush.gif" alt="움직이는 타로 이미지" class="main-img"/>
-  </div>
-</div>
 
   <script>
     const cards = [
@@ -138,24 +140,26 @@
     }
 
     function drawCard() {
-  const container = document.getElementById("card-container");
-  container.innerHTML = `
-    <img class="card-img card-shuffle" src="cardback.png" alt="카드 뒷면" />
-  `;
+  // 셔플 효과
+  const cardImg = document.querySelector("#card-content .card-img");
+  const cardName = document.querySelector("#card-content .card-name");
+  const cardMeaning = document.querySelector("#card-content .card-meaning");
+
+  cardImg.src = "cardback.png";
+  cardImg.classList.add("card-shuffle");
+  cardName.textContent = "";
+  cardMeaning.textContent = "";
 
   // 별뿌리기
   createStars();
 
-  // 0.8초 후 실제 카드 보여주기
   setTimeout(() => {
     const card = cards[Math.floor(Math.random() * cards.length)];
-    const html = `
-      <img class="card-img" src="${card.img}" alt="${card.name}" />
-      <div class="card-name">${card.name}</div>
-      <div class="card-meaning">${card.meaning}</div>
-    `;
-    container.innerHTML = html;
-  }, 800); // 셔플 애니메이션 시간과 맞춰야 자연스러움
+    cardImg.src = card.img;
+    cardImg.classList.remove("card-shuffle");
+    cardName.textContent = card.name;
+    cardMeaning.textContent = card.meaning;
+  }, 800);
 }
   
 
